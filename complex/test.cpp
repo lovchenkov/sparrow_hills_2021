@@ -5,49 +5,92 @@ using namespace std;
 
 class Complex {
 public:
+
     Complex() {
     }
 
     Complex(const double real, const double imaginary) {
+        _real = real;
+        _imaginary = imaginary;
     }
 
     Complex(const Complex& copied) {
+        _real = copied._real;
+        _imaginary = copied._imaginary;
     }
 
     Complex& operator=(const Complex& copied) {
+        _real = copied._real;
+        _imaginary = copied._imaginary;
     }
 
     ~Complex() {
     }
 
     bool operator!=(const Complex& other) const {
+        if(_real != other._real || _imaginary != other._imaginary){
+            return true;
+        }
+        return false;
     }
 
     bool operator==(const Complex& other) const {
+        if(_real == other._real && _imaginary == other._imaginary){
+            return true;
+        }
+        return false;
     }
 
     Complex operator-() const {
+        Complex answer(*this);
+        answer._real = -_real;
+        answer._imaginary = -_imaginary;
+        return answer;
     }
 
     Complex operator+(const Complex& other) const {
+        Complex answer(*this);
+        answer._real += other._real;
+        answer._imaginary += other._imaginary;
+        return answer;
     }
 
     Complex operator-(const Complex& other) const {
+        Complex answer(*this);
+        answer._real -= other._real;
+        answer._imaginary -= other._imaginary;
+        return answer;
     }
 
     Complex operator*(const Complex& other) const {
+        Complex answer(*this);
+        answer._real = _real*other._real - _imaginary*other._imaginary;
+        answer._imaginary = _real*other._imaginary + _imaginary*other._real;
+        return answer;
     }
 
     Complex operator/(const Complex& other) const {
+        Complex answer(*this);
+        answer._real = (_real*other._real + _imaginary*other._imaginary)/(other._real*other._real + other._imaginary*other._imaginary);
+        answer._imaginary =(- _real*other._imaginary + _imaginary*other._real)/(other._real*other._real + other._imaginary*other._imaginary);
+        return answer;
     }
 
     double module() const {
+        return sqrt(_real*_real + _imaginary*_imaginary);
     }
 
     double argument() const {
+        return atan2(_real, _imaginary);
     }
 
     Complex Conjugate() const {
+        Complex answer(*this);
+        answer._imaginary = -_imaginary;
+        return answer;
+    }
+    void print(){
+        cout << _real << ' ' << _imaginary << endl;
     }
 
 private:
@@ -124,4 +167,5 @@ int main() {
     cout << "Number of tests: " << tests << ", number of errors: " << errors << endl;
 
     return 0;
+
 }
